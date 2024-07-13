@@ -34,11 +34,11 @@ def json_parser(url, file_name, bucket):
 with DAG(
     "raw_predictit",
     default_args=default_args,
-    description="",
+    description="Daily Predictit Data Pull",
     schedule_interval=datetime.timedelta(days=1),
     start_date=start_date,
     catchup=False,
-    tags=["sdg"]
+    tags=["predictit"]
 ) as dag:
     
 
@@ -48,11 +48,11 @@ with DAG(
     op_kwargs={
                 'url':"https://www.predictit.org/api/marketdata/all/",
                 'file_name':'predictit_market.json',
-                'bucket':"data-mbfr"},
+                'bucket':"data-bfd"},
         dag=dag
     )
 
 
-    ready = DummyOperator(task_id='ready')
+    isready = DummyOperator(task_id='ready')
 
-    extract_predictit >> ready
+    extract_predictit >> isready
