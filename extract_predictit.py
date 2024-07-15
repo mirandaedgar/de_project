@@ -19,7 +19,7 @@ default_args = {
     "retry_delay": datetime.timedelta(minutes=5),
 }
 
-def json_parser(url, file_name, bucket):
+def json_scraper(url, file_name, bucket):
     print('starting...')
     response = requests.request("GET", url)
     json_data=response.json()
@@ -44,7 +44,7 @@ with DAG(
 
     extract_predictit = PythonOperator(
     task_id='extract_predictit',
-    python_callable=json_parser,
+    python_callable=json_scraper,
     op_kwargs={
                 'url':"https://www.predictit.org/api/marketdata/all/",
                 'file_name':'predictit_market.json',
