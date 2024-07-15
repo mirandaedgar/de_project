@@ -20,7 +20,7 @@ def json_parser(json_path, file_path):
         data = json.load(json_file)
 
     df = pd.json_normalize(data, 'markets')
-    df.to_csv(os.getcwd() + file_path + '\markets.csv', index=False)
+    df.drop(columns='contracts').to_csv(os.getcwd() + file_path + '\markets.csv', index=False)
     
     df_c = pd.json_normalize(data['markets'], 'contracts', ['id'], 
                     record_prefix='contracts_', errors='ignore')
